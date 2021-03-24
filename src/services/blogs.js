@@ -20,7 +20,6 @@ const addBlog = async (newBlog) => {
     headers: { Authorization: token }
   }
   const response = await axios.post(baseUrl, newBlog, config)
-  console.log(response)
   return response.data
 }
 

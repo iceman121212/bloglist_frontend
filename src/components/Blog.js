@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 const Blog = ({ blog }) => (
   <div>
     {blog.title} {blog.author}
@@ -6,10 +8,26 @@ const Blog = ({ blog }) => (
 )
 
 Blog.propTypes = {
-  blog: React.propTypes.shape({
+  blog: PropTypes.shape({
     title: String,
     author: String
   })
 }
 
-export default Blog
+const BlogList = ({ blogs }) => (
+  blogs.map(blog => (<Blog key={blog.id} blog={blog} />))
+)
+
+BlogList.propTypes = {
+  blogs: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: String,
+      author: String,
+      url: String,
+      likes: Number,
+      id: String
+    })
+  )
+}
+
+export { Blog, BlogList }
