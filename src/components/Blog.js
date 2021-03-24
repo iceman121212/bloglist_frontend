@@ -5,4 +5,11 @@ const Blog = ({ blog }) => (
   </div>
 )
 
+Blog.propTypes = {
+  blog: React.propTypes.shape({
+    title: String,
+    author: String
+  })
+}
+
 export default Blog
