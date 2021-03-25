@@ -4,6 +4,8 @@ import { SuccessNotification, ErrorNotification } from './components/Notificatio
 import Login from './components/Login'
 import AddBlog from './components/AddBlog'
 import UserDisplay from './components/UserDisplay'
+// eslint-disable-next-line no-unused-vars
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -29,12 +31,14 @@ const App = () => {
               username={user.username}
               setuser={setuser}
             />
-            <AddBlog
-              id={user.id}
-              blogs={blogs}
-              setBlogs={setBlogs}
-              setsuccessMessage={setsuccessMessage}
-            />
+            <Togglable buttonLabel='add blog'>
+              <AddBlog
+                id={user.id}
+                blogs={blogs}
+                setBlogs={setBlogs}
+                setsuccessMessage={setsuccessMessage}
+              />
+            </Togglable>
             <BlogList
               blogs={blogs}
             />
