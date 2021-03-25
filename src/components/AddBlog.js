@@ -17,6 +17,7 @@ const AddBlog = ({ id, blogs, setBlogs, setsuccessMessage }) => {
     }
 
     try {
+      console.log(blogs)
       const savedBlog = await blogService.addBlog(newBlog)
       setBlogs(blogs.concat(savedBlog))
       settitle('')
@@ -68,16 +69,16 @@ const AddBlog = ({ id, blogs, setBlogs, setsuccessMessage }) => {
 }
 
 AddBlog.propTypes = {
-  id: String,
+  id: PropTypes.string,
   blogs: PropTypes.arrayOf(PropTypes.shape({
-    title: String,
-    author: String,
-    url: String,
-    likes: Number,
-    user: String
+    title: PropTypes.string,
+    author: PropTypes.string,
+    url: PropTypes.string,
+    likes: PropTypes.number,
+    user: PropTypes.any
   })),
-  setBlogs: Function,
-  setsuccessMessage: Function
+  setBlogs: PropTypes.func,
+  setsuccessMessage: PropTypes.func
 }
 
 export default AddBlog

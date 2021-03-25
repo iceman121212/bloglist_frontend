@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Togglable from '../components/Togglable'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, setBlogs }) => {
+const Blog = ({ blog, blogs, setBlogs }) => {
   const blogStyle = {
     paddingTop: 2,
     paddingLeft: 2,
@@ -25,13 +25,15 @@ const Blog = ({ blog, setBlogs }) => {
       user: blog.user.id,
       id: blog.id
     }
-
     await blogService.updateBlog(updatedBlog)
     const newBlogList = await blogService.getAll()
-    const sortedBlogList = newBlogList.sort((first, next) => {
-      return next.likes - first.likes
-    })
-    setBlogs(sortedBlogList)
+    setBlogs(newBlogList)
+  }
+
+  const deleteBlog = async () => {
+    await blogService.deleteBlog(blog)
+    const newBlogList = blogs.filter(item => item.id !== blog.id)
+    setBlogs(newBlogList)
   }
 
   return (
@@ -44,6 +46,7 @@ const Blog = ({ blog, setBlogs }) => {
           <button onClick={addLike}>like</button>
         </p>
         <p style={itemStyle}>{blog.user.name}</p>
+        <button onClick={deleteBlog}>remove</button>
       </Togglable>
     </div>
   )
@@ -51,36 +54,45 @@ const Blog = ({ blog, setBlogs }) => {
 
 Blog.propTypes = {
   blog: PropTypes.shape({
-    title: String,
-    author: String,
-    url: String,
-    likes: Number,
+    title: PropTypes.string,
+    author: PropTypes.string,
+    url: PropTypes.string,
+    likes: PropTypes.number,
     user: PropTypes.shape({
-      username: String,
-      name: String,
-      id: String
+      username: PropTypes.string,
+      name: PropTypes.string,
+      id: PropTypes.string
     }
     ),
-    id: String
+    id: PropTypes.string
   }),
-  setBlogs: Function
+  blogs: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      author: PropTypes.string,
+      url: PropTypes.string,
+      likes: PropTypes.number,
+      id: PropTypes.string
+    })
+  ),
+  setBlogs: PropTypes.func
 }
 
 const BlogList = ({ blogs, setBlogs }) => (
-  blogs.map(blog => (<Blog key={blog.id} blog={blog} setBlogs={setBlogs} />))
+  blogs.map(blog => (<Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} />))
 )
 
 BlogList.propTypes = {
   blogs: PropTypes.arrayOf(
     PropTypes.shape({
-      title: String,
-      author: String,
-      url: String,
-      likes: Number,
-      id: String
+      title: PropTypes.string,
+      author: PropTypes.string,
+      url: PropTypes.string,
+      likes: PropTypes.number,
+      id: PropTypes.string
     })
   ),
-  setBlogs: Function
+  setBlogs: PropTypes.func
 }
 
 export { Blog, BlogList }

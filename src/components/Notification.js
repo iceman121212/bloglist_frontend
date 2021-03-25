@@ -1,3 +1,4 @@
+import { any } from 'prop-types'
 import React from 'react'
 
 const SuccessNotification = ({ message }) => {
@@ -18,7 +19,7 @@ const SuccessNotification = ({ message }) => {
 }
 
 SuccessNotification.propTypes = {
-  message: String
+  message: any
 }
 
 const ErrorNotification = ({ message }) => {
@@ -39,7 +40,7 @@ const ErrorNotification = ({ message }) => {
 }
 
 ErrorNotification.propTypes = {
-  message: String
+  message: any
 }
 
 export { SuccessNotification, ErrorNotification }

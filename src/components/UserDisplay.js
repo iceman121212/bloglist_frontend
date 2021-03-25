@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const UserDisplay = ({ username, setuser }) => {
   const handleLogout = () => {
@@ -14,8 +15,8 @@ const UserDisplay = ({ username, setuser }) => {
 }
 
 UserDisplay.propTypes = {
-  username: String,
-  setuser: Function
+  username: PropTypes.string,
+  setuser: PropTypes.func
 }
 
 export default UserDisplay

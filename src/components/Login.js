@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
+import PropTypes from 'prop-types'
 
 const Login = ({ setuser, seterrorMessage, setBlogs }) => {
   const [username, setusername] = useState('')
@@ -39,7 +40,10 @@ const Login = ({ setuser, seterrorMessage, setBlogs }) => {
       setusername('')
       setpassword('')
       const blogsUser = await blogService.getAll()
-      setBlogs(blogsUser)
+      const sortedBlogList = blogsUser.sort((first, next) => {
+        return next.likes - first.likes
+      })
+      setBlogs(sortedBlogList)
     } catch (exception) {
       seterrorMessage('wrong username or password')
       setTimeout(() => {
@@ -75,9 +79,9 @@ const Login = ({ setuser, seterrorMessage, setBlogs }) => {
 }
 
 Login.propTypes = {
-  setuser: Function,
-  seterrorMessage: Function,
-  setBlogs: Function
+  setuser: PropTypes.func,
+  seterrorMessage: PropTypes.func,
+  setBlogs: PropTypes.func
 }
 
 export default Login
