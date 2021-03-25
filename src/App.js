@@ -41,6 +41,7 @@ const App = () => {
             </Togglable>
             <BlogList
               blogs={blogs}
+              setBlogs={setBlogs}
             />
           </div>)}
     </div>

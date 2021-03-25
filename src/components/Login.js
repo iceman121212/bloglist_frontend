@@ -16,7 +16,10 @@ const Login = ({ setuser, seterrorMessage, setBlogs }) => {
       setusername('')
       setpassword('')
       const blogsUser = await blogService.getAll()
-      setBlogs(blogsUser)
+      const sortedBlogList = blogsUser.sort((first, next) => {
+        return next.likes - first.likes
+      })
+      setBlogs(sortedBlogList)
     }
   }, [])
 
