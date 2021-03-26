@@ -7,7 +7,7 @@ const UserDisplay = ({ username, setuser }) => {
     setuser(null)
   }
   return (
-    <p>
+    <p id='user-display'>
       {username} logged in.
       <button onClick={handleLogout}>log out</button>
     </p>

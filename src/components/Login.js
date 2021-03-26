@@ -59,6 +59,7 @@ const Login = ({ setuser, seterrorMessage, setBlogs }) => {
         username
         <input
           type='username'
+          id='username'
           value={username}
           name='Username'
           onChange={({ target }) => setusername(target.value)}
@@ -68,12 +69,13 @@ const Login = ({ setuser, seterrorMessage, setBlogs }) => {
         password
         <input
           type='password'
+          id='password'
           value={password}
           name='Password'
           onChange={({ target }) => setpassword(target.value)}
         />
       </div>
-      <button type='submit'>login</button>
+      <button id='login-button' type='submit'>login</button>
     </form>
   )
 }
