@@ -14,7 +14,7 @@ const Togglable = (props) => {
     <div>
       <div style={hideWhenVisible}>
         {/* eslint-disable-next-line react/prop-types */}
-        <button onClick={toggleVisibility}>{props.buttonLabel}</button>
+        <button id={props.id} onClick={toggleVisibility}>{props.buttonLabel}</button>
       </div>
       <div style={showWhenVisible}>
         {/* eslint-disable-next-line react/prop-types */}

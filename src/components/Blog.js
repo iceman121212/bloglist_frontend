@@ -39,10 +39,10 @@ const Blog = ({ blog, blogs, setBlogs }) => {
   return (
     <div style={blogStyle}>
       {blog.title} {blog.author}
-      <Togglable buttonLabel='view'>
+      <Togglable id='view-blog' buttonLabel='view'>
         <p style={itemStyle}>{blog.url}</p>
         <p style={itemStyle}>
-          {blog.likes}
+          <span className='likes'>{blog.likes}</span>
           <button onClick={addLike}>like</button>
         </p>
         <p style={itemStyle}>{blog.user.name}</p>

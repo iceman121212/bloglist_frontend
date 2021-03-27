@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
 
+// eslint-disable-next-line no-unused-vars
 const AddBlog = ({ id, blogs, setBlogs, setsuccessMessage }) => {
   const [title, settitle] = useState('')
   const [author, setauthor] = useState('')
@@ -17,7 +18,6 @@ const AddBlog = ({ id, blogs, setBlogs, setsuccessMessage }) => {
     }
 
     try {
-      console.log(blogs)
       const savedBlog = await blogService.addBlog(newBlog)
       setBlogs(blogs.concat(savedBlog))
       settitle('')
@@ -42,6 +42,7 @@ const AddBlog = ({ id, blogs, setBlogs, setsuccessMessage }) => {
           type='text'
           value={title}
           name='Title'
+          id='blog-title'
           onChange={({ target }) => settitle(target.value)}
         />
       </div>
@@ -51,6 +52,7 @@ const AddBlog = ({ id, blogs, setBlogs, setsuccessMessage }) => {
           type='text'
           value={author}
           name='Author'
+          id='blog-author'
           onChange={({ target }) => setauthor(target.value)}
         />
       </div>
@@ -60,10 +62,11 @@ const AddBlog = ({ id, blogs, setBlogs, setsuccessMessage }) => {
           type='text'
           value={url}
           name='URL'
+          id='blog-url'
           onChange={({ target }) => seturl(target.value)}
         />
       </div>
-      <button type='submit'>add</button>
+      <button id='submit-blog' type='submit'>add</button>
     </form>
   )
 }
