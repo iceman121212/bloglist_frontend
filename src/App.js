@@ -6,23 +6,26 @@ import AddBlog from './components/AddBlog'
 import UserDisplay from './components/UserDisplay'
 // eslint-disable-next-line no-unused-vars
 import Togglable from './components/Togglable'
+import { useSelector } from 'react-redux'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setuser] = useState(null)
-  const [successMessage, setsuccessMessage] = useState(null)
-  const [errorMessage, seterrorMessage] = useState(null)
+  const messageType = useSelector(state => state.notification.type)
+  const message = useSelector(state => state.notification.message)
+  console.log(message)
 
   return (
     <div>
       <h2>blogs</h2>
-      <SuccessNotification message={successMessage} />
-      <ErrorNotification message={errorMessage} />
+      {messageType === 'SUCCESS'
+        ? (<SuccessNotification message={message} />)
+        : (<ErrorNotification message={message} />)
+      }
       {user === null
         ? (
           <Login
             setuser={setuser}
-            seterrorMessage={seterrorMessage}
             setBlogs={setBlogs}
           />)
         : (
@@ -36,7 +39,6 @@ const App = () => {
                 id={user.id}
                 blogs={blogs}
                 setBlogs={setBlogs}
-                setsuccessMessage={setsuccessMessage}
               />
             </Togglable>
             <BlogList

@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
+import { notificationShow } from '../reducers/notificationReducer'
+import { useDispatch } from 'react-redux'
 
 // eslint-disable-next-line no-unused-vars
-const AddBlog = ({ id, blogs, setBlogs, setsuccessMessage }) => {
+const AddBlog = ({ id, blogs, setBlogs }) => {
   const [title, settitle] = useState('')
   const [author, setauthor] = useState('')
   const [url, seturl] = useState('')
+  const dispatch = useDispatch()
 
   const handleNewBlog = async (event) => {
     event.preventDefault()
@@ -24,9 +27,9 @@ const AddBlog = ({ id, blogs, setBlogs, setsuccessMessage }) => {
       setauthor('')
       seturl('')
 
-      setsuccessMessage(`blog '${savedBlog.title}' by author '${savedBlog.author}' saved successfully`)
+      dispatch(notificationShow('SUCCESS', `blog '${savedBlog.title}' by author '${savedBlog.author}' saved successfully`))
       setTimeout(() => {
-        setsuccessMessage(null)
+        dispatch(notificationShow(null))
       }, 5000)
     } catch (exception) {
       console.log(exception)
@@ -81,7 +84,6 @@ AddBlog.propTypes = {
     user: PropTypes.any
   })),
   setBlogs: PropTypes.func,
-  setsuccessMessage: PropTypes.func
 }
 
 export default AddBlog

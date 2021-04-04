@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import { notificationShow } from '../reducers/notificationReducer'
 
-const Login = ({ setuser, seterrorMessage, setBlogs }) => {
+const Login = ({ setuser, setBlogs }) => {
   const [username, setusername] = useState('')
   const [password, setpassword] = useState('')
+  const dispatch = useDispatch()
 
   useEffect(async () => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
@@ -45,9 +48,9 @@ const Login = ({ setuser, seterrorMessage, setBlogs }) => {
       })
       setBlogs(sortedBlogList)
     } catch (exception) {
-      seterrorMessage('wrong username or password')
+      dispatch(notificationShow('ERROR', 'wrong username or password'))
       setTimeout(() => {
-        seterrorMessage(null)
+        dispatch(notificationShow(null))
       }, 5000)
     }
   }
@@ -82,7 +85,6 @@ const Login = ({ setuser, seterrorMessage, setBlogs }) => {
 
 Login.propTypes = {
   setuser: PropTypes.func,
-  seterrorMessage: PropTypes.func,
   setBlogs: PropTypes.func
 }
 
