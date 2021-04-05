@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Togglable from '../components/Togglable'
-import blogService from '../services/blogs'
+import { useDispatch, useSelector } from 'react-redux'
+import { bloglistAddLike, bloglistDelete } from '../reducers/bloglistReducer'
 
-const Blog = ({ blog, blogs, setBlogs }) => {
+const Blog = ({ blog }) => {
+  const dispatch = useDispatch()
   const blogStyle = {
     paddingTop: 2,
     paddingLeft: 2,
@@ -17,23 +19,12 @@ const Blog = ({ blog, blogs, setBlogs }) => {
   }
 
   const addLike = async () => {
-    const updatedBlog = {
-      title: blog.title,
-      author: blog.author,
-      url: blog.url,
-      likes: blog.likes + 1,
-      user: blog.user.id,
-      id: blog.id
-    }
-    await blogService.updateBlog(updatedBlog)
-    const newBlogList = await blogService.getAll()
-    setBlogs(newBlogList)
+    const updatedBlog = { ...blog, likes: blog.likes + 1, user: blog.user.id }
+    dispatch(bloglistAddLike(updatedBlog))
   }
 
   const deleteBlog = async () => {
-    await blogService.deleteBlog(blog)
-    const newBlogList = blogs.filter(item => item.id !== blog.id)
-    setBlogs(newBlogList)
+    dispatch(bloglistDelete(blog))
   }
 
   return (
@@ -66,33 +57,13 @@ Blog.propTypes = {
     ),
     id: PropTypes.string
   }),
-  blogs: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string,
-      author: PropTypes.string,
-      url: PropTypes.string,
-      likes: PropTypes.number,
-      id: PropTypes.string
-    })
-  ),
-  setBlogs: PropTypes.func
 }
 
-const BlogList = ({ blogs, setBlogs }) => (
-  blogs.map(blog => (<Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} />))
-)
-
-BlogList.propTypes = {
-  blogs: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string,
-      author: PropTypes.string,
-      url: PropTypes.string,
-      likes: PropTypes.number,
-      id: PropTypes.string
-    })
-  ),
-  setBlogs: PropTypes.func
+const BlogList = () => {
+  const blogs = useSelector(state => state.bloglist)
+  return (
+    blogs.map(blog => (<Blog key={blog.id} blog={blog} blogs={blogs} />))
+  )
 }
 
 export { Blog, BlogList }

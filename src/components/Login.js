@@ -4,11 +4,12 @@ import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { notificationShow } from '../reducers/notificationReducer'
+import { bloglistInitialize } from '../reducers/bloglistReducer'
 
-const Login = ({ setuser, setBlogs }) => {
+const Login = ({ setuser }) => {
+  const dispatch = useDispatch()
   const [username, setusername] = useState('')
   const [password, setpassword] = useState('')
-  const dispatch = useDispatch()
 
   useEffect(async () => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
@@ -19,11 +20,7 @@ const Login = ({ setuser, setBlogs }) => {
       setuser(user)
       setusername('')
       setpassword('')
-      const blogsUser = await blogService.getAll()
-      const sortedBlogList = blogsUser.sort((first, next) => {
-        return next.likes - first.likes
-      })
-      setBlogs(sortedBlogList)
+      dispatch(bloglistInitialize())
     }
   }, [])
 
@@ -42,11 +39,7 @@ const Login = ({ setuser, setBlogs }) => {
       setuser(user)
       setusername('')
       setpassword('')
-      const blogsUser = await blogService.getAll()
-      const sortedBlogList = blogsUser.sort((first, next) => {
-        return next.likes - first.likes
-      })
-      setBlogs(sortedBlogList)
+      dispatch(bloglistInitialize())
     } catch (exception) {
       dispatch(notificationShow('ERROR', 'wrong username or password'))
       setTimeout(() => {

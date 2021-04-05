@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
 import { notificationShow } from '../reducers/notificationReducer'
+import { bloglistAdd } from '../reducers/bloglistReducer'
 import { useDispatch } from 'react-redux'
 
 // eslint-disable-next-line no-unused-vars
-const AddBlog = ({ id, blogs, setBlogs }) => {
+const AddBlog = ({ id }) => {
   const [title, settitle] = useState('')
   const [author, setauthor] = useState('')
   const [url, seturl] = useState('')
@@ -21,13 +21,13 @@ const AddBlog = ({ id, blogs, setBlogs }) => {
     }
 
     try {
-      const savedBlog = await blogService.addBlog(newBlog)
-      setBlogs(blogs.concat(savedBlog))
+      dispatch(bloglistAdd(newBlog))
+
       settitle('')
       setauthor('')
       seturl('')
 
-      dispatch(notificationShow('SUCCESS', `blog '${savedBlog.title}' by author '${savedBlog.author}' saved successfully`))
+      dispatch(notificationShow('SUCCESS', `blog '${newBlog.title}' by author '${newBlog.author}' saved successfully`))
       setTimeout(() => {
         dispatch(notificationShow(null))
       }, 5000)
@@ -76,14 +76,6 @@ const AddBlog = ({ id, blogs, setBlogs }) => {
 
 AddBlog.propTypes = {
   id: PropTypes.string,
-  blogs: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string,
-    author: PropTypes.string,
-    url: PropTypes.string,
-    likes: PropTypes.number,
-    user: PropTypes.any
-  })),
-  setBlogs: PropTypes.func,
 }
 
 export default AddBlog

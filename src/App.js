@@ -9,7 +9,6 @@ import Togglable from './components/Togglable'
 import { useSelector } from 'react-redux'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [user, setuser] = useState(null)
   const messageType = useSelector(state => state.notification.type)
   const message = useSelector(state => state.notification.message)
@@ -26,7 +25,6 @@ const App = () => {
         ? (
           <Login
             setuser={setuser}
-            setBlogs={setBlogs}
           />)
         : (
           <div>
@@ -37,13 +35,9 @@ const App = () => {
             <Togglable buttonLabel='add blog'>
               <AddBlog
                 id={user.id}
-                blogs={blogs}
-                setBlogs={setBlogs}
               />
             </Togglable>
             <BlogList
-              blogs={blogs}
-              setBlogs={setBlogs}
             />
           </div>)}
     </div>
