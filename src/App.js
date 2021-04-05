@@ -1,5 +1,5 @@
 import React from 'react'
-import { BlogList } from './components/Blog'
+import { BlogList, BlogView } from './components/Blog'
 import { SuccessNotification, ErrorNotification } from './components/Notification'
 import Login from './components/Login'
 import AddBlog from './components/AddBlog'
@@ -29,18 +29,10 @@ const App = () => {
         <Link style={padding} to='/users'>users</Link>
       </div>
       <Switch>
+        <Route path='/blogs/:id'>
+          <BlogView />
+        </Route>
         <Route path='/blogs'>
-          <div>
-            <h2>Blogs WIP</h2>
-          </div>
-        </Route>
-        <Route path='/users/:id'>
-          <UserBlogs />
-        </Route>
-        <Route path='/users'>
-          <Users />
-        </Route>
-        <Route path='/'>
           <div>
             <h2>blogs</h2>
             {messageType === 'SUCCESS'
@@ -62,6 +54,15 @@ const App = () => {
                   <BlogList />
                 </div>)}
           </div>
+        </Route>
+        <Route path='/users/:id'>
+          <UserBlogs />
+        </Route>
+        <Route path='/users'>
+          <Users />
+        </Route>
+        <Route path='/'>
+
         </Route>
       </Switch>
 
