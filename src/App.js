@@ -12,7 +12,7 @@ import {
   BrowserRouter as Router,
   Switch, Route, Link
 } from 'react-router-dom'
-import Users from './components/Users'
+import Users, { UserBlogs } from './components/Users'
 
 const App = () => {
   const messageType = useSelector(state => state.notification.type)
@@ -33,6 +33,9 @@ const App = () => {
           <div>
             <h2>Blogs WIP</h2>
           </div>
+        </Route>
+        <Route path='/users/:id'>
+          <UserBlogs />
         </Route>
         <Route path='/users'>
           <Users />
