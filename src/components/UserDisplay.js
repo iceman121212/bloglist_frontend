@@ -1,22 +1,21 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux'
+import { loginLogoutChange } from '../reducers/loginReducer'
 
-const UserDisplay = ({ username, setuser }) => {
+const UserDisplay = () => {
+  const dispatch = useDispatch()
+  const userStatus = useSelector(state => state.userStatus)
   const handleLogout = () => {
     window.localStorage.removeItem('loggedNoteappUser')
-    setuser(null)
+    dispatch(loginLogoutChange())
   }
+  console.log(userStatus.user)
   return (
     <p id='user-display'>
-      {username} logged in.
+      {userStatus.user} logged in.
       <button onClick={handleLogout}>log out</button>
     </p>
   )
-}
-
-UserDisplay.propTypes = {
-  username: PropTypes.string,
-  setuser: PropTypes.func
 }
 
 export default UserDisplay

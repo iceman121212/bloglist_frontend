@@ -66,7 +66,6 @@ export const bloglistAdd = (newBlog) => {
   }
 }
 
-
 // eslint-disable-next-line no-unused-vars
 // export const bloglistDelete = (id) => {
 //   return {
