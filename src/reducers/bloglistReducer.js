@@ -14,6 +14,8 @@ const bloglistReducer = (state = [], action) => {
       return [...state, action.data.blog]
     case 'DELETE':
       return state.filter((b) => b.id !== action.data.id)
+    case 'UPDATE':
+      return state.map((b) => b.id === action.data.id ? { ...b, comments: action.data.comments } : b)
     default:
       return state
   }
@@ -80,6 +82,16 @@ export const bloglistDelete = (blog) => {
     dispatch({
       type: 'DELETE',
       data: { id: blog.id }
+    })
+  }
+}
+
+export const bloglistUpdate = (blog) => {
+  return async dispatch => {
+    await blogService.updateBlog(blog)
+    dispatch({
+      type: 'UPDATE',
+      data: blog
     })
   }
 }

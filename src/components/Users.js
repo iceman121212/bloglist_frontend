@@ -34,9 +34,7 @@ const User = ({ user }) => (
 const Users = () => {
   const dispatch = useDispatch()
   useEffect(() => {
-    return () => {
-      dispatch(usersGetAll())
-    }
+    dispatch(usersGetAll())
   }, [])
   const userList = useSelector(state => state.userList)
   console.log(userList)

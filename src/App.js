@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux'
 
 import {
   BrowserRouter as Router,
-  Switch, Route, Link
+  Switch, Route, Link, Redirect
 } from 'react-router-dom'
 import Users, { UserBlogs } from './components/Users'
 
@@ -24,7 +24,6 @@ const App = () => {
   return (
     <Router>
       <div>
-        <Link style={padding} to='/'>home</Link>
         <Link style={padding} to='/blogs'>blogs</Link>
         <Link style={padding} to='/users'>users</Link>
       </div>
@@ -51,8 +50,8 @@ const App = () => {
                       id={userStatus.id}
                     />
                   </Togglable>
-                  <BlogList />
                 </div>)}
+            <BlogList />
           </div>
         </Route>
         <Route path='/users/:id'>
@@ -62,7 +61,7 @@ const App = () => {
           <Users />
         </Route>
         <Route path='/'>
-
+          <Redirect to='/blogs' />
         </Route>
       </Switch>
 

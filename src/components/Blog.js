@@ -1,23 +1,26 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Togglable from '../components/Togglable'
 import { useDispatch, useSelector } from 'react-redux'
-import { bloglistAddLike, bloglistDelete } from '../reducers/bloglistReducer'
+import { bloglistAddLike, bloglistDelete, bloglistInitialize, bloglistUpdate } from '../reducers/bloglistReducer'
 import {
   BrowserRouter as Router, Link, useParams
 } from 'react-router-dom'
+import Comments from './Comments'
 
 export const BlogView = () => {
   const dispatch = useDispatch()
+
+  const blogList = useSelector(state => state.bloglist)
+  console.log(blogList)
+  const blog = blogList.find(b => b.id === useParams().id)
+
   const addLike = async () => {
     const updatedBlog = { ...blog, likes: blog.likes + 1, user: blog.user.id }
     dispatch(bloglistAddLike(updatedBlog))
   }
 
-  const blogList = useSelector(state => state.bloglist)
-  console.log(blogList)
-  const blog = blogList.find(b => b.id === useParams().id)
   if (!blog) return null
   return (
     <div>
@@ -30,6 +33,7 @@ export const BlogView = () => {
         </li>
         <li>added by {blog.user.username}</li>
       </ul>
+      <Comments blog={blog} />
     </div>
   )
 }
@@ -48,27 +52,13 @@ const Blog = ({ blog }) => {
     padding: 0
   }
 
-
-
   const deleteBlog = async () => {
     dispatch(bloglistDelete(blog))
   }
 
-  console.log('BLOG COMPONENT RENDERED')
-  console.log(blog)
-
   return (
     <div style={blogStyle}>
       <Link to={`/blogs/${blog.id}`}>{blog.title} {blog.author}</Link>
-      {/* <Togglable id='view-blog' buttonLabel='view'>
-        <p style={itemStyle}>{blog.url}</p>
-        <p style={itemStyle}>
-          <span className='likes'>{blog.likes}</span>
-          <button onClick={addLike}>like</button>
-        </p>
-        <p style={itemStyle}>{blog.user.name}</p>
-        <button onClick={deleteBlog}>remove</button>
-      </Togglable> */}
     </div>
   )
 }
@@ -90,6 +80,10 @@ Blog.propTypes = {
 }
 
 const BlogList = () => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(bloglistInitialize())
+  }, [])
   const blogs = useSelector(state => state.bloglist)
   return (
     blogs.map(blog => (<Blog key={blog.id} blog={blog} blogs={blogs} />))
