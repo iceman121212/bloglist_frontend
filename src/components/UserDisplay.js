@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginLogoutChange } from '../reducers/loginReducer'
 
@@ -11,10 +12,15 @@ const UserDisplay = () => {
   }
   console.log(userStatus.user)
   return (
-    <p id='user-display'>
+    <span id='user-display'>
       {userStatus.user} logged in.
-      <button onClick={handleLogout}>log out</button>
-    </p>
+      <Button
+        variant='secondary'
+        style={{ padding: 2, marginLeft: 3, marginTop: 0, marginBotton: 0 }}
+        onClick={handleLogout}>
+        log out
+      </Button>
+    </span >
   )
 }
 

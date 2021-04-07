@@ -1,19 +1,16 @@
 import { any } from 'prop-types'
 import React from 'react'
+import { Alert } from 'react-bootstrap'
 
 const SuccessNotification = ({ message }) => {
   if (message === null) return null
-  const successNotificationStyle = {
-    color: 'green',
-    fontSize: 18,
-    border: '1px solid'
-  }
   return (
     <div
       className='successNotification'
-      style={successNotificationStyle}
     >
-      {message}
+      <Alert variant='success'>
+        {message}
+      </Alert>
     </div>
   )
 }
@@ -24,17 +21,13 @@ SuccessNotification.propTypes = {
 
 const ErrorNotification = ({ message }) => {
   if (message === null) return null
-  const errorNotificationStyle = {
-    color: 'red',
-    fontSize: 18,
-    border: '1px solid'
-  }
   return (
     <div
       className='errorNotification'
-      style={errorNotificationStyle}
     >
-      {message}
+      <Alert variant='danger'>
+        {message}
+      </Alert>
     </div>
   )
 }

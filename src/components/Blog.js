@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import Togglable from '../components/Togglable'
 import { useDispatch, useSelector } from 'react-redux'
 import { bloglistAddLike, bloglistDelete, bloglistInitialize, bloglistUpdate } from '../reducers/bloglistReducer'
 import {
   BrowserRouter as Router, Link, useParams
 } from 'react-router-dom'
 import Comments from './Comments'
+import { Table } from 'react-bootstrap'
 
 export const BlogView = () => {
   const dispatch = useDispatch()
@@ -57,8 +57,9 @@ const Blog = ({ blog }) => {
   }
 
   return (
-    <div style={blogStyle}>
-      <Link to={`/blogs/${blog.id}`}>{blog.title} {blog.author}</Link>
+    // <div style={blogStyle}>
+    <div>
+      <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
     </div>
   )
 }
@@ -86,7 +87,20 @@ const BlogList = () => {
   }, [])
   const blogs = useSelector(state => state.bloglist)
   return (
-    blogs.map(blog => (<Blog key={blog.id} blog={blog} blogs={blogs} />))
+    <Table striped>
+      <tbody>
+        {blogs.map(blog => (
+          <tr key={blog.id}>
+            <td>
+              <Blog key={blog.id} blog={blog} blogs={blogs} />
+            </td>
+            <td>
+              {blog.author}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
   )
 }
 

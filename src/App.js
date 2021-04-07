@@ -13,59 +13,79 @@ import {
   Switch, Route, Link, Redirect
 } from 'react-router-dom'
 import Users, { UserBlogs } from './components/Users'
+import { Nav, Navbar } from 'react-bootstrap'
+
+const Navigation = ({ user }) => {
+  const padding = { padding: 5 }
+  const fontColor = { color: 'white' }
+  return (
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav justify className="mr-auto">
+          <Nav.Link href="#" as="span" className='align-middle'>
+            <Link style={padding, fontColor} to="/blogs">blogs</Link>
+          </Nav.Link>
+          <Nav.Link href="#" as="span">
+            <Link style={padding, fontColor} to="/users">users</Link>
+          </Nav.Link>
+          <Nav.Link href="#" as="span">
+            {user
+              ? <em><UserDisplay /></em>
+              : ''
+            }
+          </Nav.Link>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
+  )
+}
 
 const App = () => {
   const messageType = useSelector(state => state.notification.type)
   const message = useSelector(state => state.notification.message)
   const userStatus = useSelector(state => state.userStatus)
 
-  const padding = { padding: 5 }
-
   return (
-    <Router>
-      <div>
-        <Link style={padding} to='/blogs'>blogs</Link>
-        <Link style={padding} to='/users'>users</Link>
-      </div>
-      <Switch>
-        <Route path='/blogs/:id'>
-          <BlogView />
-        </Route>
-        <Route path='/blogs'>
-          <div>
-            <h2>blogs</h2>
-            {messageType === 'SUCCESS'
-              ? (<SuccessNotification message={message} />)
-              : (<ErrorNotification message={message} />)
-            }
-            {userStatus.user === null
-              ? (<Login />)
-              : (
-                <div>
-                  <UserDisplay
-                    username={userStatus.username}
-                  />
-                  <Togglable buttonLabel='add blog'>
-                    <AddBlog
-                      id={userStatus.id}
-                    />
-                  </Togglable>
-                </div>)}
-            <BlogList />
-          </div>
-        </Route>
-        <Route path='/users/:id'>
-          <UserBlogs />
-        </Route>
-        <Route path='/users'>
-          <Users />
-        </Route>
-        <Route path='/'>
-          <Redirect to='/blogs' />
-        </Route>
-      </Switch>
-
-    </Router>
+    <div className='container'>
+      <Router>
+        <Navigation user={userStatus.user} />
+        <Switch>
+          <Route path='/blogs/:id'>
+            <BlogView />
+          </Route>
+          <Route path='/blogs'>
+            <div>
+              <h2>blogs</h2>
+              {messageType === 'SUCCESS'
+                ? (<SuccessNotification message={message} />)
+                : (<ErrorNotification message={message} />)
+              }
+              {userStatus.user === null
+                ? (<Login />)
+                : (
+                  <div>
+                    <Togglable buttonLabel='add blog'>
+                      <AddBlog
+                        id={userStatus.id}
+                      />
+                    </Togglable>
+                  </div>)}
+              <BlogList />
+            </div>
+          </Route>
+          <Route path='/users/:id'>
+            <UserBlogs />
+          </Route>
+          <Route path='/users'>
+            <Users />
+          </Route>
+          <Route path='/'>
+            <Redirect to='/blogs' />
+          </Route>
+        </Switch>
+      </Router>
+    </div>
   )
 }
 

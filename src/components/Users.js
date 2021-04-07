@@ -19,7 +19,7 @@ export const UserBlogs = () => {
       <h2>{user.username}</h2>
       <h4>added blogs</h4>
       <ul>
-        {user.blogs.map(blog => <li>{blog.title}</li>)}
+        {user.blogs.map((blog, index) => <li key={index}>{blog.title}</li>)}
       </ul>
     </div>
   )
@@ -37,11 +37,10 @@ const Users = () => {
     dispatch(usersGetAll())
   }, [])
   const userList = useSelector(state => state.userList)
-  console.log(userList)
   return (
     <ul>
-      {userList.map(user =>
-        <li>
+      {userList.map((user, index) =>
+        <li key={index}>
           <User user={user} />
         </li>
       )}
